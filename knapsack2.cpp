@@ -57,6 +57,7 @@ int optimizar(int maxSize){
 
     objetosEscogidos = getObjetosEscogidos(dp);
 
+
     for(int i = 0; i < dp.size(); i++){
 
         for(int j = 0; j < dp[0].size(); j++){
@@ -66,16 +67,16 @@ int optimizar(int maxSize){
         cout << endl;
     }
 
-
-
     cout << endl;
 
-    cout << "los objetos escogidos (indexados desde 0) son: "
+    cout << "los objetos escogidos son (indexado desde 0): ";
     for(int i = 0; i<objetosEscogidos.size(); i++){
 
-        if(objetosEscogidos[i]) cout << i << endl;
+        if(objetosEscogidos[i]) cout << i << " ";
 
     }
+
+    cout << endl;
 
     return dp[values.size()][maxSize];
 
@@ -99,7 +100,7 @@ int main(){
         weights.push_back(temp);
     }
 
-    cout << "el valor maximo que se puede obtener es:  " << optimizar(m) << endl;
+    cout << "valor de la mochila optmizado: " << optimizar(m) << endl;
 
 return 0;
 }
