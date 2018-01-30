@@ -79,13 +79,15 @@ int optimizar(int maxSize){
 
     cout << endl;
 
-    cout << "los objetos escogidos (indexados desde 0) son: ";
+    cout << "los objetos escogidos son: " << endl;
     for(int i = 0; i<objetosEscogidos.size(); i++){
 
         if(objetosEscogidos[i] > 0) cout << objetosEscogidos[i] << " de " << weights[i] << endl;
 
     }
 
+
+    cout << endl;
     return dp[weights.size()-1][maxSize];
 
 
