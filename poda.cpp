@@ -12,9 +12,9 @@ vector<int> beneficios;
 vector<int> pesos;
 
 bool f(pair<int, int> a, pair<int, int> b){
-    if(a.first > b.first) return true;
-    if(a.first == b.first){
-        if(a.second > b.second) return true;
+    if(a.second < b.second) return true;
+    if(a.second == b.second){
+        if(a.first > b.first) return true;
         return false;
     }
     return false;
@@ -35,40 +35,21 @@ class Nodo{
         this->be = bacum;
     }
 
-    void getCotaSuperior(){
-        if(this->isSolucion()){
-            this->cs = 0;
-            return;
-        }
-        queue<Nodo> daughters;
-        daughters.push(*this);
+    int getCotaSuperior(Nodo x){
+        if(x.isSolucion() && x.pact <= m){
+            return x.bact;
+        }else if(!x.isSolucion()){
 
+            Nodo temp(x.isUsed, x.nivel+1, x.bact, x.pact);
+            Nodo p(temp);
 
-
-        while(!daughters.empty()){
-            Nodo y(daughters.front().isUsed, daughters.front().nivel+1, daughters.front().bact, daughters.front().pact);
-
-            daughters.pop();
-            for(int i =1; i>=0; i--){
-
-                if(y.pact + i*pesos[y.nivel] <= m){
-                    y.pact+= i*pesos[y.nivel];
-                    y.bact+=i*beneficios[y.nivel];
-                    y.isUsed[y.nivel] = i;
-                    if(y.isSolucion()){
-
-                        this-> cs = y.bact;
-                        return;
-                    }else{
-                        daughters.push(y);
-                    }
-                }
-            }
+            temp.bact+= beneficios[temp.nivel-1];
+            temp.pact+= pesos[temp.nivel-1];
+            temp.isUsed[temp.nivel-1] = true;
+            return max(getCotaSuperior(p), getCotaSuperior(temp));
 
         }
-
-        this-> cs = 0;
-
+        return -1;
     }
 
 public:
@@ -81,7 +62,9 @@ public:
         this->isUsed = isUsed;
         this->bact = bact;
         this->pact = pact;
-        getCotaSuperior();
+        if(!isSolucion())
+            this->cs = this->bact + getCotaSuperior(*this);
+        else cs = bact;
         getBeneficioEstimado();
         this->ci = bact + be;
 
@@ -110,8 +93,8 @@ stack<Nodo> LNV;
 
 
 int main(){
-int n;
-cout << "Ingrese el numero de elementos: "; cin >> n;
+    int n;
+    cout << "Ingrese el numero de elementos: "; cin >> n;
 
 
 
@@ -143,6 +126,8 @@ cout << "Ingrese el numero de elementos: "; cin >> n;
 
     int c = raiz.ci;
 
+    cout << "raiz: " << raiz.be << " "<< raiz.ci << " " << raiz.cs << endl;
+
     Nodo s(raiz);
 
 
@@ -156,22 +141,22 @@ cout << "Ingrese el numero de elementos: "; cin >> n;
         if(x.cs >= c){
 
             for(int i = 0; i<2;i++){
-                 Nodo y(x.isUsed, x.nivel + 1, x.bact,x.pact);
-                 y.isUsed[y.nivel-1] = i;
-                 y.bact += i*beneficios[y.nivel-1];
-                 y.pact += i*pesos[y.nivel-1];
+                Nodo y(x.isUsed, x.nivel + 1, x.bact,x.pact);
+                y.isUsed[y.nivel-1] = i;
+                y.bact += i*beneficios[y.nivel-1];
+                y.pact += i*pesos[y.nivel-1];
 
-                 if(y.pact <= m){
+                if(y.pact <= m){
 
                     if(y.isSolucion() && y.bact > s.bact){
                         s = y;
                         c = max(c, y.bact);
-                    }else if(!y.isSolucion() && y.cs > c){
+                    }else if(!y.isSolucion() && y.cs >= c){
                         LNV.push(y);
                         c = max(c, y.ci);
 
                     }
-                 }
+                }
 
             }
 
@@ -179,17 +164,17 @@ cout << "Ingrese el numero de elementos: "; cin >> n;
     }
 
 
-        cout << "los objetos usados son: ";
+    cout << "los objetos usados son: ";
 
-        for(int i = 0; i< s.isUsed.size(); i++){
+    for(int i = 0; i< s.isUsed.size(); i++){
 
-            if(s.isUsed[i])cout << i << " ";
-        }
+        if(s.isUsed[i])cout << i << " ";
+    }
 
-        cout << endl;
+    cout << endl;
 
-        cout << "el beneficio es: "<< s.bact<<endl;
-        cout << "el peso es: "<< s.pact<<endl;
+    cout << "el beneficio es: "<< s.bact<<endl;
+    cout << "el peso es: "<< s.pact<<endl;
 
-return 0;
+    return 0;
 }
