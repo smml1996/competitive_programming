@@ -64,9 +64,9 @@ int query(int node, vector<int> m, vector<int> n, int lim1, int lim2, int q1, in
 
     int ans1, ans2;
 
-    if(q1 < lim1 || q2 > lim2) return -1;
+    if(q1 > lim2 || q2 < lim1) return -1;
 
-    if(q1>= lim1 && q2 <= lim2)
+    if(q1<= lim1 && q2 >= lim2)
         return m[node];
 
     ans1 = query(node*2, m, n, lim1, (lim1 + lim2) /2 , q1, q2);
@@ -105,11 +105,7 @@ int main(){
     initializeTree(1, m, n, 0, n.size()-1);
 
 
-    for(int i =0; i < m.size(); i++){
-
-        cout << m[i] << endl;
-    }
-
+    cout << query(1, m, n, 0, n.size()-1, 0,1) << endl;
 
 
 
