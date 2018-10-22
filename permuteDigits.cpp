@@ -10,6 +10,7 @@ Output
 Print the maximum possible number that is a permutation of digits of a and is not greater than b. The answer can't have any leading zeroes. It is guaranteed that the answer exists.
 
 The number in the output should have exactly the same length as number a. It should be a permutation of digits of a.
+ http://codeforces.com/problemset/problem/915/C
  */
 
 #include <iostream>
