@@ -6,6 +6,7 @@
 using namespace std;
 
 /*
+    http://codeforces.com/problemset/problem/474/D
  * We saw the little game Marmot made for Mole's lunch. Now it's Marmot's dinner time and, as we all know, Marmot eats flowers. At every dinner he eats some red and white flowers. Therefore a dinner can be represented as a sequence of several flowers, some of them white and some of them red.
 
 But, for a dinner to be tasty, there is a rule: Marmot wants to eat white flowers only in groups of size k.
